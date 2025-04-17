@@ -40,7 +40,7 @@ export default function ConfirmDialog({
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="px-4 py-2 bg-warning hover:bg-red-700 text-white rounded-md shadow-sm"
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm"
           >
             削除
           </AlertDialogAction>
