@@ -1,0 +1,241 @@
+TODOアプリ 設計書
+1. システムアーキテクチャ
+1.1 全体アーキテクチャ
+TODOアプリは、クライアント-サーバーモデルに基づいた3層アーキテクチャで構成されます：
+
+プレゼンテーション層 (フロントエンド)
+
+React.jsベースのSPA（Single Page Application）
+Tailwind CSSによるスタイリング
+
+
+アプリケーション層 (バックエンド)
+
+Node.js + Express.jsによるRESTful API
+ビジネスロジックとデータ検証
+
+
+データ層 (データベース)
+
+MongoDBによるNoSQLデータストレージ
+データの永続化
+
+
+
+1.2 技術スタック詳細
+レイヤー技術役割フロントエンドReact.jsUIコンポーネント管理、状態管理Tailwind CSSレスポンシブデザイン、UIスタイリングLucide ReactアイコンライブラリAxiosHTTP通信クライアントバックエンドNode.jsサーバーサイドJavaScript実行環境Express.jsWebアプリケーションフレームワークMongooseMongoDBのODM（Object-Document Mapper）Corsクロスオリジンリソース共有の有効化Body-parserリクエストボディの解析データベースMongoDBNoSQLドキュメントデータベース
+2. データベース設計
+2.1 スキーマ設計
+2.1.1 Taskコレクション
+javascript{
+  _id: ObjectId,            // 自動生成されるユニークID
+  title: String,            // タスクのタイトル（必須）
+  completed: Boolean,       // 完了状態（デフォルト: false）
+  priority: Number,         // 優先度（1: 高, 2: 中, 3: 低）（デフォルト: 2）
+  dueDate: Date,            // 期限（オプション）
+  category: String,         // カテゴリ名
+  createdAt: Date,          // 作成日時
+  updatedAt: Date           // 更新日時
+}
+2.1.2 Categoryコレクション
+javascript{
+  _id: ObjectId,            // 自動生成されるユニークID
+  name: String,             // カテゴリ名（必須、ユニーク）
+  createdAt: Date,          // 作成日時
+  updatedAt: Date           // 更新日時
+}
+2.2 インデックス設計
+Taskコレクション
+
+createdAt: 作成日時でのソート効率化
+priority: 優先度でのフィルタリング効率化
+category: カテゴリでのフィルタリング効率化
+completed: 完了状態でのフィルタリング効率化
+
+Categoryコレクション
+
+name: ユニーク制約とカテゴリ名検索の効率化
+
+3. API設計
+3.1 RESTful APIエンドポイント
+タスク関連エンドポイント
+メソッドエンドポイント説明GET/api/tasksすべてのタスクを取得GET/api/tasks/特定のタスクを取得POST/api/tasks新しいタスクを作成PUT/api/tasks/特定のタスクを更新DELETE/api/tasks/特定のタスクを削除GET/api/tasks/filter?completed=&category=タスクをフィルタリング
+カテゴリ関連エンドポイント
+メソッドエンドポイント説明GET/api/categoriesすべてのカテゴリを取得POST/api/categories新しいカテゴリを作成DELETE/api/categories/特定のカテゴリを削除
+3.2 リクエスト/レスポンス詳細
+タスク作成 (POST /api/tasks)
+リクエスト:
+json{
+  "title": "プロジェクト計画書を作成する",
+  "priority": 1,
+  "dueDate": "2025-04-24",
+  "category": "仕事"
+}
+レスポンス:
+json{
+  "success": true,
+  "data": {
+    "_id": "60d21b4667d0d8992e610c85",
+    "title": "プロジェクト計画書を作成する",
+    "completed": false,
+    "priority": 1,
+    "dueDate": "2025-04-24T00:00:00.000Z",
+    "category": "仕事",
+    "createdAt": "2025-04-17T10:30:45.123Z",
+    "updatedAt": "2025-04-17T10:30:45.123Z"
+  }
+}
+タスク更新 (PUT /api/tasks/)
+リクエスト:
+json{
+  "title": "プロジェクト計画書を更新する",
+  "priority": 2,
+  "completed": true
+}
+レスポンス:
+json{
+  "success": true,
+  "data": {
+    "_id": "60d21b4667d0d8992e610c85",
+    "title": "プロジェクト計画書を更新する",
+    "completed": true,
+    "priority": 2,
+    "dueDate": "2025-04-24T00:00:00.000Z",
+    "category": "仕事",
+    "createdAt": "2025-04-17T10:30:45.123Z",
+    "updatedAt": "2025-04-17T11:15:22.456Z"
+  }
+}
+エラーレスポンス
+json{
+  "success": false,
+  "error": "タスクのタイトルは必須です",
+  "status": 400
+}
+4. コンポーネント設計
+4.1 フロントエンドコンポーネント構成
+コンポーネント階層
+App
+├── Header
+├── TaskForm
+│   ├── PrioritySelect
+│   ├── DatePicker
+│   └── CategorySelect
+├── CategoryManager
+├── TaskFilter
+└── TaskList
+    └── TaskItem
+        ├── TaskDisplay
+        └── TaskEditor
+主要コンポーネントの責務
+コンポーネント責務Appアプリケーションのルートコンポーネント、状態管理TaskForm新規タスク入力フォームCategoryManagerカテゴリの追加と管理TaskFilterタスクのフィルタリングUITaskListタスク一覧の表示と管理TaskItem個別タスクの表示・編集・削除
+4.2 バックエンドモジュール構成
+モジュール構成
+server/
+├── server.js           # アプリケーションのエントリーポイント
+├── config/             # 設定ファイル
+│   └── db.js           # データベース接続設定
+├── models/             # Mongooseモデル
+│   ├── Task.js         # タスクモデル
+│   └── Category.js     # カテゴリモデル
+├── routes/             # APIルート
+│   ├── tasks.js        # タスク関連エンドポイント
+│   └── categories.js   # カテゴリ関連エンドポイント
+├── controllers/        # コントローラー
+│   ├── taskController.js
+│   └── categoryController.js
+└── middleware/         # ミドルウェア
+    └── errorHandler.js # エラーハンドリング
+5. 状態管理設計
+5.1 フロントエンド状態管理
+React Hooksを使用した状態管理アプローチ：
+アプリケーション状態：
+javascript// タスク状態
+const [tasks, setTasks] = useState([]);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
+
+// フォーム状態
+const [newTaskTitle, setNewTaskTitle] = useState('');
+const [newTaskPriority, setNewTaskPriority] = useState(2);
+const [newTaskDueDate, setNewTaskDueDate] = useState('');
+const [newTaskCategory, setNewTaskCategory] = useState('');
+
+// フィルター状態
+const [filter, setFilter] = useState('all');
+const [categoryFilter, setCategoryFilter] = useState('');
+
+// 編集状態
+const [editingTask, setEditingTask] = useState(null);
+
+// カテゴリ状態
+const [categories, setCategories] = useState([]);
+const [newCategory, setNewCategory] = useState('');
+5.2 データフロー設計
+ユーザーアクション → API呼び出し → サーバー処理 → データベース操作 → レスポンス → 状態更新 → UI更新
+タスク追加時のデータフロー例：
+
+ユーザーがフォームに入力してSubmitボタンをクリック
+addTask関数が呼ばれる
+APIクライアント（Axios）がPOST /api/tasksリクエストを送信
+サーバーがリクエストを受け取り、バリデーション
+タスクがデータベースに保存される
+成功レスポンスがクライアントに返される
+クライアントのtasks状態が更新される
+UIが再レンダリングされ、新しいタスクが表示される
+
+6. UI設計
+6.1 画面レイアウト
+アプリケーションは以下の主要セクションから構成されます：
+
+ヘッダー: アプリケーションタイトル
+タスク入力フォーム: 新規タスクの作成
+カテゴリ管理: カテゴリの追加と表示
+フィルターバー: タスクのフィルタリングオプション
+タスク一覧: 登録済みタスクの表示・管理
+
+6.2 レスポンシブデザイン対応
+
+モバイルファースト設計
+Tailwind CSSのブレークポイント使用
+タッチフレンドリーなUIコントロール
+画面サイズに応じた要素の再配置
+
+6.3 カラースキーム
+要素カラー用途プライマリ#3b82f6 (blue-600)ボタン、強調表示セカンダリ#10b981 (green-600)アクション、カテゴリ追加警告#ef4444 (red-600)削除ボタン、エラー高優先度#fee2e2 (red-100)優先度「高」表示中優先度#fef3c7 (yellow-100)優先度「中」表示低優先度#d1fae5 (green-100)優先度「低」表示背景#f3f4f6 (gray-100)アプリケーション背景カード背景#ffffff (white)コンテナ背景テキスト#111827 (gray-900)主要テキストテキスト補助#6b7280 (gray-500)補助テキスト
+7. セキュリティ設計
+7.1 データ検証とサニタイズ
+
+フロントエンドでの入力バリデーション
+バックエンドでのリクエストデータ検証
+MongooseスキーマによるDB入力データの検証
+
+7.2 エラーハンドリング
+
+グローバルエラーハンドリングミドルウェア
+クライアントサイドのエラー状態管理
+ユーザーフレンドリーなエラーメッセージ表示
+
+7.3 API保護（将来実装）
+
+JWT認証
+CSRF保護
+レート制限
+HTTPS
+
+8. デプロイメント計画
+8.1 開発環境
+
+ローカル開発サーバー (localhost)
+開発用MongoDBインスタンス
+
+8.2 本番環境
+
+フロントエンド: Vercel/Netlify
+バックエンド: Heroku/AWS EC2
+データベース: MongoDB Atlas
+
+8.3 CI/CD
+
+GitHub Actionsによる自動テスト
+本番環境への自動デプロイ
