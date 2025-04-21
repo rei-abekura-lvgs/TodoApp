@@ -1,0 +1,110 @@
+info
+==> Cloning from https://github.com/rei-abekura-lvgs/TodoApp
+info
+==> Checking out commit ec47698d4b70f4a7825107b5aefc9aa42468b053 in branch main
+info
+==> Using Node.js version 22.14.0 (default)
+info
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+info
+==> Using Bun version 1.1.0 (default)
+info
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+info
+==> Running build command 'npm ci && NODE_ENV=production node build.cjs'...
+info
+info
+added 382 packages, and audited 383 packages in 6s
+info
+info
+51 packages are looking for funding
+info
+  run `npm fund` for details
+info
+info
+1 moderate severity vulnerability
+info
+info
+To address all issues, run:
+info
+  npm audit fix
+info
+info
+Run `npm audit` for details.
+info
+Building the project...
+info
+Building server...
+info
+info
+  dist/index.js  16.6kb
+info
+info
+⚡ Done in 5ms
+info
+Building client...
+info
+failed to load config from /opt/render/project/src/vite.config.ts
+error
+error during build:
+error
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/render/project/src/node_modules/.vite-temp/vite.config.ts.timestamp-1745215101986-c629cfdcd829b.mjs
+info
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+info
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+info
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+info
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+info
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+info
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+info
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+info
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+info
+    at ModuleJob._link (node:internal/modules/esm/module_job:135:49)
+error
+Build failed: Error: Command failed: NODE_ENV=production npx vite build
+info
+    at genericNodeError (node:internal/errors:983:15)
+info
+    at wrappedFn (node:internal/errors:537:14)
+info
+    at checkExecSyncError (node:child_process:882:11)
+info
+    at execSync (node:child_process:954:15)
+info
+    at Object.<anonymous> (/opt/render/project/src/build.cjs:12:3)
+info
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+info
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+info
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+info
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+info
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+info
+  status: 1,
+info
+  signal: null,
+info
+  output: [ null, null, null ],
+info
+  pid: 187,
+info
+  stdout: null,
+info
+  stderr: null
+info
+}
+info
+==> Build failed 😞
+info
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+Need better ways to work with logs? Try theRender CLIor set up a log stream integration 
