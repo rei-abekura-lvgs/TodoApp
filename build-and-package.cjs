@@ -15,7 +15,7 @@ try {
   
   // サーバーコードのビルド (viteに依存しない方法で)
   console.log('バックエンドをビルド中...');
-  execSync('npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --external:vite', { stdio: 'inherit' });
+  execSync('npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --external:vite --external:@vitejs/plugin-react --external:@replit/vite-plugin-shadcn-theme-json --external:@replit/vite-plugin-runtime-error-modal --external:@replit/vite-plugin-cartographer', { stdio: 'inherit' });
   
   // サーバー側vite.tsの修正版を作成
   console.log('プロダクション用のvite.tsファイルを作成中...');
@@ -65,9 +65,11 @@ export function serveStatic(app) {
   // 本番用のvite.tsを保存
   fs.writeFileSync('dist/vite.js', prodViteFile);
   
-  // clientディレクトリをdistにコピー
+  // clientディレクトリ構造を確認して作成
   console.log('クライアントビルドをパッケージに含める...');
-  execSync('mkdir -p dist/client && cp -r dist/client-build/* dist/client/', { stdio: 'inherit' });
+  execSync('mkdir -p dist/client', { stdio: 'inherit' });
+  // Viteのビルド出力はdist/publicにあるので、それをdist/clientにコピー
+  execSync('cp -r dist/public/* dist/client/ || true', { stdio: 'inherit' });
   
   // package.jsonを作成
   console.log('本番用package.jsonを生成...');
