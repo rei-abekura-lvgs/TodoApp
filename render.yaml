@@ -2,12 +2,11 @@ services:
   - type: web
     name: todo-app
     env: node
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
+    buildCommand: npm ci && npm i vite --no-save && NODE_ENV=production node build-server-only.cjs
+    startCommand: NODE_ENV=production node dist/index.js
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: NEON_DATABASE_URL
-        sync: false # シークレット環境変数
-      - key: PORT
-        value: 10000
+        sync: false

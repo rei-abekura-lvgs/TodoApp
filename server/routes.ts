@@ -12,6 +12,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   if (process.env.DATABASE_URL) {
     await import("./db.js");
   }
+  
+  // Health check endpoint for Render
+  app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+  });
 
   // Task routes
   app.get("/api/tasks", taskController.getAllTasks);

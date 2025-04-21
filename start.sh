@@ -1,6 +1,13 @@
 #!/bin/bash
-# 本番環境では、ビルドされたアセットを利用
-npm ci
-npm run build
-# サーバーを起動
+
+# 必要なパッケージをインストール
+echo "Installing dependencies..."
+npm install --production
+npm install vite --no-save
+
+# 環境変数を設定
+export NODE_ENV=production
+
+# アプリケーションを起動
+echo "Starting application..."
 node dist/index.js
