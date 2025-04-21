@@ -1,0 +1,81 @@
+info
+==> Cloning from https://github.com/rei-abekura-lvgs/TodoApp
+info
+==> Checking out commit 41058b5c468a4a3d0e9b5b8159e8b5b750bd3f7b in branch main
+info
+==> Using Node.js version 22.14.0 (default)
+info
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+info
+==> Using Bun version 1.1.0 (default)
+info
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+info
+==> Running build command 'npm install && npm install vite --save-dev && npx vite build && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist'...
+info
+info
+added 382 packages, and audited 383 packages in 6s
+info
+info
+51 packages are looking for funding
+info
+  run `npm fund` for details
+info
+info
+1 moderate severity vulnerability
+info
+info
+To address all issues, run:
+info
+  npm audit fix
+info
+info
+Run `npm audit` for details.
+info
+info
+up to date, audited 383 packages in 2s
+info
+info
+51 packages are looking for funding
+info
+  run `npm fund` for details
+info
+info
+1 moderate severity vulnerability
+info
+info
+To address all issues, run:
+info
+  npm audit fix
+info
+info
+Run `npm audit` for details.
+info
+failed to load config from /opt/render/project/src/vite.config.ts
+error
+error during build:
+error
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/render/project/src/node_modules/.vite-temp/vite.config.ts.timestamp-1745214483401-5e9493e18e927.mjs
+info
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+info
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+info
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+info
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+info
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+info
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+info
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+info
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+info
+    at ModuleJob._link (node:internal/modules/esm/module_job:135:49)
+info
+==> Build failed 😞
+info
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+Need better ways to work with logs? Try theRender CLIor set up a log stream integration 
